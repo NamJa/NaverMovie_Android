@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NaverMovieAPI {
-    @GET("")
+    @GET("movie.json")
     fun fetchMovieData(
         @Query("query") query: String,
         @Query("start") start: Int,
