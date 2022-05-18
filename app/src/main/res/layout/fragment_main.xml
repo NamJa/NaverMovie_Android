@@ -63,11 +63,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/tiLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:endIconMode="clear_text">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13sp"
