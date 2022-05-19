@@ -88,8 +88,9 @@ class MainFragment : Fragment() {
             Glide.with(itemView)
                 .load(resItem.image)
                 .into(moviePoster)
-
-            movieTitle.text = resItem.title
+            var title = resItem.title.replace("<b>", "")
+            title = title.replace("</b>", "")
+            movieTitle.text = title
             movieDirector.text = resItem.director
             movieActor.text = resItem.actor
             movieRate.text = resItem.userRating
