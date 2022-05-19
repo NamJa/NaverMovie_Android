@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,10 +25,12 @@ class MainFragment : Fragment() {
     private lateinit var editText: EditText
     private lateinit var recyclerView: RecyclerView
 
-    private val movieDataFetcherRepository = MovieDataFetcherRepository()
+    private lateinit var viewModel: MainFragmentViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MainFragmentViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -46,13 +49,13 @@ class MainFragment : Fragment() {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if(keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_SEARCH) {
                     val queryText = editText.text.toString()
-                    movieDataFetcherRepository.fetchMovieData(queryText,1,15)
+                    viewModel.fetchMovieData(queryText,1,15)
                 }
                 return true
             }
         })
         // 데이터 수신 확인용 Test Code
-        movieDataFetcherRepository._movieData.observe(
+        viewModel.movieData.observe(
             viewLifecycleOwner,
             Observer {
                 recyclerView.adapter = MovieRecyclerViewAdapter(it.items)
