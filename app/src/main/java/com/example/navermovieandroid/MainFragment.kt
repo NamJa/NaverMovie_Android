@@ -47,11 +47,12 @@ class MainFragment : Fragment() {
         // editText에서 enter키를 입력받았을 경우
         editText.setOnKeyListener(object :View.OnKeyListener{
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
-                if(keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_SEARCH) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER) {
                     val queryText = editText.text.toString()
                     viewModel.fetchMovieData(queryText,1,15)
+                    return true
                 }
-                return true
+                return false
             }
         })
         // 데이터 수신 확인용 Test Code
