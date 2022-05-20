@@ -4,5 +4,5 @@ class MovieResponse {
     var total: Int = 0
     var start: Int = 0
     var display: Int = 0
-    lateinit var items: List<ResultResponse>
+    lateinit var items: MutableList<ResultResponse>
 }

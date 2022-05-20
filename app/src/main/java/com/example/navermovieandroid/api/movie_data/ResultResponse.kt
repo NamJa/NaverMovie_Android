@@ -7,5 +7,6 @@ data class ResultResponse(
     var director: String,
     var actor: String,
     var userRating: String,
+    var movNum: String,
     var isWished: Boolean = false
 )
