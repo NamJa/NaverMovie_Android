@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Naver Movie Android</string>
     <string name="movie_poster">영화 포스터</string>
+    <string name="preference_key">wished</string>
 </resources>
