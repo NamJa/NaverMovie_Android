@@ -1,4 +1,4 @@
-package com.example.navermovieandroid
+package com.example.navermovieandroid.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.navermovieandroid.util.MovieDatabaseRepository

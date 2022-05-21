@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
+import com.example.navermovieandroid.viewmodels.ShowFavoritesViewModel
 
 class ShowFavoritesFragment : Fragment() {
 

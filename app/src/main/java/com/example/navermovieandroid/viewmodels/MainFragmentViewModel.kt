@@ -1,4 +1,4 @@
-package com.example.navermovieandroid
+package com.example.navermovieandroid.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

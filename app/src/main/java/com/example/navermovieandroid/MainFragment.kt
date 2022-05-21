@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
+import com.example.navermovieandroid.viewmodels.MainFragmentViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 private const val TAG = "MainFragment"
