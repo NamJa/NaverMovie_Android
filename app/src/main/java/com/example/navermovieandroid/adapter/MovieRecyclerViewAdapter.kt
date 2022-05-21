@@ -23,6 +23,11 @@ class MovieRecyclerViewAdapter(
     var movieList: List<ResultResponse>
     ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieDataViewHolder>() {
 
+    interface Callbacks{
+        fun onMovieItemSelected(resItem: ResultResponse)
+    }
+    private var callbacks: Callbacks = context as Callbacks
+
     inner class MovieDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val movieDatabaseRepository = MovieDatabaseRepository.get()
         val moviePoster: ImageView
@@ -50,8 +55,9 @@ class MovieRecyclerViewAdapter(
             movieDirector.text = "감독: ${resItem.director}"
             movieActor.text = "출연: ${resItem.actor}"
             movieRate.text = "평점: ${resItem.userRating}"
+
             itemView.setOnClickListener {
-                Toast.makeText(context, "${resItem.movNum}", Toast.LENGTH_SHORT).show()
+                callbacks.onMovieItemSelected(resItem)
             }
 
             /** sharedPreferences에서 가져온 데이터에 찜 처리가 되어있다면 목록 아이템 속성에 true 대입 */
