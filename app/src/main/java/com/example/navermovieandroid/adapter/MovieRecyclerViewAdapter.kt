@@ -28,6 +28,8 @@ class MovieRecyclerViewAdapter(
     }
     private var callbacks: Callbacks = context as Callbacks
 
+    var isClickable = true
+
     inner class MovieDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val movieDatabaseRepository = MovieDatabaseRepository.get()
         val moviePoster: ImageView
@@ -56,8 +58,10 @@ class MovieRecyclerViewAdapter(
             movieActor.text = "출연: ${resItem.actor}"
             movieRate.text = "평점: ${resItem.userRating}"
 
+
             itemView.setOnClickListener {
-                callbacks.onMovieItemSelected(resItem)
+                if(isClickable)
+                    callbacks.onMovieItemSelected(resItem)
             }
 
             /** sharedPreferences에서 가져온 데이터에 찜 처리가 되어있다면 목록 아이템 속성에 true 대입 */

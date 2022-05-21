@@ -2,7 +2,6 @@ package com.example.navermovieandroid
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -81,14 +80,6 @@ class MainFragment : Fragment() {
                     }
                 }
                 recyclerView.adapter = MovieRecyclerViewAdapter(requireContext(), it.items)
-            }
-        )
-        // Room DB Test Code
-        viewModel.movFavListLiveData.observe(
-            viewLifecycleOwner,
-            Observer {
-                for (element in it)
-                    Log.d("testDB", "${element.movNum}, ${element.title}")
             }
         )
     }

@@ -10,9 +10,6 @@ import com.example.navermovieandroid.util.MovieDatabaseRepository
 class MainFragmentViewModel: ViewModel() {
 
     private val movieDataFetcherRepository = MovieDataFetcherRepository()
-    private val movieDatabaseRepository = MovieDatabaseRepository.get()
-
-    val movFavListLiveData = movieDatabaseRepository.getMovieFavorites()
 
     val movieData: LiveData<MovieResponse>
         get() = movieDataFetcherRepository._movieData

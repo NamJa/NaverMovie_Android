@@ -9,8 +9,8 @@
     <ImageView
         android:src="@drawable/close"
         android:id="@+id/closeBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="@string/show_favorites_fragment_title"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
