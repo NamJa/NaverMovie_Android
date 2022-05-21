@@ -1,5 +1,6 @@
 package com.example.navermovieandroid
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,15 +18,27 @@ import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.google.android.material.textfield.TextInputLayout
 
+private const val TAG = "MainFragment"
 
 class MainFragment : Fragment() {
+
+    interface FavoritesCallback {
+        fun onShowFavoritesBtnClicked()
+    }
 
     private lateinit var inputLayout: TextInputLayout
     private lateinit var editText: EditText
     private lateinit var recyclerView: RecyclerView
+    private lateinit var showFavoritesBtn: LinearLayout
+
 
     private lateinit var viewModel: MainFragmentViewModel
+    private var favCallback: FavoritesCallback? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        favCallback = context as FavoritesCallback?
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +68,10 @@ class MainFragment : Fragment() {
             }
         })
 
+        showFavoritesBtn.setOnClickListener {
+            favCallback?.onShowFavoritesBtnClicked()
+        }
+
         viewModel.movieData.observe(
             viewLifecycleOwner,
             Observer {
@@ -75,12 +93,12 @@ class MainFragment : Fragment() {
         )
     }
 
-
     private fun initView(view: View) {
         inputLayout = view.findViewById(R.id.tiLayout)
         editText = inputLayout.editText!!
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        showFavoritesBtn = view.findViewById(R.id.showFavoritesBtn)
     }
 
 

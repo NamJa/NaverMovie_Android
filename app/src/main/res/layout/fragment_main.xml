@@ -8,19 +8,6 @@
     android:padding="15dp"
     tools:context=".MainFragment">
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolBar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="네이버 영화 검색"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="22sp"-->
-<!--            android:textStyle="bold"-->
-<!--            android:layout_marginStart="15dp"/>-->
-<!--    </androidx.appcompat.widget.Toolbar>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="네이버 영화 검색"
+            android:text="@string/main_fragment_title"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -38,6 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <LinearLayout
+            android:id="@+id/showFavoritesBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
@@ -54,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="즐겨찾기"
+                android:text="@string/favorites_btn_title"
                 android:textSize="13sp"
                 android:textColor="@color/black"/>
 
@@ -72,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:inputType="text"
-            android:hint="검색어 입력"/>
+            android:hint="@string/edittext_hint"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView

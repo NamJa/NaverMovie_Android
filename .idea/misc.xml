@@ -5,10 +5,12 @@
       <map>
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/drawable-v24/star_gray.xml" value="0.265" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/drawable/bg_favorites_button.xml" value="0.2465" />
+        <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/drawable/close.xml" value="0.2845" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/drawable/star.xml" value="0.2475" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/drawable/star_outline.xml" value="0.265" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/layout/activity_main.xml" value="0.446875" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/layout/fragment_main.xml" value="0.446875" />
+        <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/layout/fragment_show_favorites.xml" value="0.2" />
         <entry key="..\:/Users/ddori/AndroidStudioProjects/NaverMovieAndroid/app/src/main/res/layout/item_recyclerview_movie.xml" value="0.240625" />
       </map>
     </option>

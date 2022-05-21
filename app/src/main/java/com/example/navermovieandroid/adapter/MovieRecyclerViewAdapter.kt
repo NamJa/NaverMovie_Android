@@ -55,9 +55,7 @@ class MovieRecyclerViewAdapter(
             }
 
             /** sharedPreferences에서 가져온 데이터에 찜 처리가 되어있다면 목록 아이템 속성에 true 대입 */
-            if (getWishedListPref(context).contains(resItem.movNum)) {
-                resItem.isWished = true
-            }
+            resItem.isWished = getWishedListPref(context).contains(resItem.movNum)
             /** 즐겨찾기 버튼 이미지 처리 */
             setFavoriteBtnImage(itemView, resItem.isWished)
             /** 즐겨찾기 버튼 클릭 이벤트 처리 */

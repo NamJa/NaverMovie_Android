@@ -2,4 +2,8 @@
     <string name="app_name">Naver Movie Android</string>
     <string name="movie_poster">영화 포스터</string>
     <string name="preference_key">wished</string>
+    <string name="main_fragment_title">네이버 영화 검색</string>
+    <string name="edittext_hint">검색어 입력</string>
+    <string name="show_favorites_fragment_title">즐겨찾기 목록</string>
+    <string name="favorites_btn_title">즐겨찾기</string>
 </resources>
