@@ -19,8 +19,7 @@ import org.json.JSONArray
 import org.json.JSONException
 
 class MovieRecyclerViewAdapter(
-    var context: Context,
-    var movieList: List<ResultResponse>
+    var context: Context
     ) : RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieDataViewHolder>() {
 
     interface Callbacks{
@@ -28,6 +27,7 @@ class MovieRecyclerViewAdapter(
     }
     private var callbacks: Callbacks = context as Callbacks
 
+    private var movieList: MutableList<ResultResponse> = mutableListOf()
     var isClickable = true
 
     inner class MovieDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -137,8 +137,16 @@ class MovieRecyclerViewAdapter(
                 apply()
             }
         }
+    }
 
-
+    fun setList(itemList: List<ResultResponse>) {
+        movieList = itemList.toMutableList()
+    }
+    fun addList(itemList: List<ResultResponse>) {
+        movieList.addAll(itemList)
+    }
+    fun clear() {
+        movieList.clear()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieDataViewHolder {

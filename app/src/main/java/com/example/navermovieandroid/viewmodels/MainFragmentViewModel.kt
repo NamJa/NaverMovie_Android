@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.navermovieandroid.api.movie_data.MovieResponse
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.example.navermovieandroid.util.MovieDataFetcherRepository
-import com.example.navermovieandroid.util.MovieDatabaseRepository
 
 class MainFragmentViewModel: ViewModel() {
 
@@ -13,6 +12,9 @@ class MainFragmentViewModel: ViewModel() {
 
     val movieData: LiveData<MovieResponse>
         get() = movieDataFetcherRepository._movieData
+    val totalMovieData: MutableList<ResultResponse> = mutableListOf()
+
+    var isOnPaused = false
 
     fun fetchMovieData(query: String, start: Int, display: Int) {
         movieDataFetcherRepository.fetchMovieData(query, start, display)

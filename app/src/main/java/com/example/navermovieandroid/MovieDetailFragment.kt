@@ -51,7 +51,8 @@ class MovieDetailFragment : Fragment() {
         toolbar.title = ""
         toolbar.findViewById<TextView>(R.id.toolbarTextTitle).text = resItem.title
 
-        val adapter = MovieRecyclerViewAdapter(requireContext(), listOf(resItem))
+        val adapter = MovieRecyclerViewAdapter(requireContext())
+        adapter.setList(listOf(resItem))
         adapter.isClickable = false
         recyclerView.adapter = adapter
 

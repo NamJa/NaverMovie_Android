@@ -20,6 +20,7 @@ class ShowFavoritesFragment : Fragment() {
     private lateinit var favoritesRecyclerView: RecyclerView
 
     private lateinit var viewModel: ShowFavoritesViewModel
+    private lateinit var movieListAdapter: MovieRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,7 @@ class ShowFavoritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        movieListAdapter = MovieRecyclerViewAdapter(requireContext())
         return inflater.inflate(R.layout.fragment_show_favorites, container, false)
     }
 
@@ -44,7 +46,8 @@ class ShowFavoritesFragment : Fragment() {
         viewModel.favoritesDB.observe(
             viewLifecycleOwner,
             Observer {
-                favoritesRecyclerView.adapter = MovieRecyclerViewAdapter(requireContext(), it)
+                movieListAdapter.setList(it)
+                favoritesRecyclerView.adapter = movieListAdapter
             }
         )
 

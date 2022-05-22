@@ -2,6 +2,7 @@ package com.example.navermovieandroid
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,12 +27,18 @@ class MainFragment : Fragment() {
         fun onShowFavoritesBtnClicked()
     }
 
+    private var queryText = ""
+    private var recyclerItemTotalCount = 0
+    private var movieResTotal = 0
+    private var start = 1
+    private var display = 15
+
     private lateinit var inputLayout: TextInputLayout
     private lateinit var editText: EditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var showFavoritesBtn: LinearLayout
 
-
+    private lateinit var movieListAdapter: MovieRecyclerViewAdapter
     private lateinit var viewModel: MainFragmentViewModel
     private var favCallback: FavoritesCallback? = null
 
@@ -49,6 +56,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        movieListAdapter = MovieRecyclerViewAdapter(requireContext())
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
@@ -56,22 +64,31 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView(view)
 
-        // editText에서 enter키를 입력받았을 경우
+        /** editText에서 enter키를 입력받았을 경우 */
         editText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    val queryText = editText.text.toString()
-                    viewModel.fetchMovieData(queryText, 1, 15)
+                    queryText = editText.text.toString()
+                    start = 1
+                    display = 15
+                    recyclerView.adapter = movieListAdapter
+                    viewModel.totalMovieData.clear()
+                    movieListAdapter.clear()
+                    viewModel.fetchMovieData(queryText, start, display)
+
                     return true
                 }
                 return false
             }
         })
 
+        /** '즐겨찾기' 버튼 클릭 */
         showFavoritesBtn.setOnClickListener {
             favCallback?.onShowFavoritesBtnClicked()
         }
 
+
+        /** 영화 검색 데이터를 관찰하여 RecyclerView에 데이터를 추가한다. */
         viewModel.movieData.observe(
             viewLifecycleOwner,
             Observer {
@@ -80,9 +97,44 @@ class MainFragment : Fragment() {
                         it.items[i] = stringProcess(it.items[i])
                     }
                 }
-                recyclerView.adapter = MovieRecyclerViewAdapter(requireContext(), it.items)
+                movieResTotal = it.total
+                if(it.display < display) {
+                    display = it.display
+                }
+
+                if (!viewModel.isOnPaused) {
+                    Log.d("scroll_b", "called")
+                    viewModel.totalMovieData.addAll(it.items)
+                    movieListAdapter.notifyItemRangeInserted(recyclerItemTotalCount + 1, it.items.size)
+                }
+                movieListAdapter.setList(viewModel.totalMovieData)
             }
         )
+
+        /** RecyclerView의 무한 스크롤 동작 */
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                recyclerItemTotalCount = viewModel.totalMovieData.size - 1
+                Log.d("scrollpos", "$movieResTotal        $lastVisibleItemPosition  $recyclerItemTotalCount")
+
+                if (!recyclerView.canScrollVertically(1) && (lastVisibleItemPosition == recyclerItemTotalCount) && (movieResTotal >= recyclerItemTotalCount+1)) {
+                    if(movieResTotal-1 != lastVisibleItemPosition) {
+                        Log.d("scrollpos_data", "called")
+                        viewModel.isOnPaused = false
+                        start += display
+                        viewModel.fetchMovieData(queryText, start, display)
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isOnPaused = true
     }
 
     private fun initView(view: View) {
@@ -90,6 +142,7 @@ class MainFragment : Fragment() {
         editText = inputLayout.editText!!
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = movieListAdapter
         showFavoritesBtn = view.findViewById(R.id.showFavoritesBtn)
     }
 
