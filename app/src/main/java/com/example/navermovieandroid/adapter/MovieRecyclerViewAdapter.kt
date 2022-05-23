@@ -38,9 +38,9 @@ class MovieRecyclerViewAdapter(
                 .into(binding.moviePoster)
 
             binding.movieTitle.text = resItem.title
-            binding.movieDirector.text = "감독: ${resItem.director}"
-            binding.movieActor.text = "출연: ${resItem.actor}"
-            binding.movieRate.text = "평점: ${resItem.userRating}"
+            binding.movieDirector.text = context.getString(R.string.director, resItem.director)
+            binding.movieActor.text = context.getString(R.string.actor, resItem.actor)
+            binding.movieRate.text = context.getString(R.string.userRated, resItem.userRating)
 
 
             itemView.setOnClickListener {

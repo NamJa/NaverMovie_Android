@@ -6,4 +6,7 @@
     <string name="edittext_hint">검색어 입력</string>
     <string name="show_favorites_fragment_title">즐겨찾기 목록</string>
     <string name="favorites_btn_title">즐겨찾기</string>
+    <string name="director">감독: %1$s</string>
+    <string name="actor">배우: %1$s</string>
+    <string name="userRated">평점: %1$s</string>
 </resources>
