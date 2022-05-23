@@ -1,4 +1,4 @@
-package com.example.navermovieandroid
+package com.example.navermovieandroid.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.navermovieandroid.R
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.databinding.FragmentShowFavoritesBinding
 import com.example.navermovieandroid.viewmodels.ShowFavoritesViewModel
@@ -30,7 +31,8 @@ class ShowFavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         movieListAdapter = MovieRecyclerViewAdapter(requireContext())
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_show_favorites, container, false)
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_show_favorites, container, false)
         return binding.root
     }
 

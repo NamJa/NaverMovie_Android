@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
+import com.example.navermovieandroid.fragment.MainFragment
+import com.example.navermovieandroid.fragment.MovieDetailFragment
+import com.example.navermovieandroid.fragment.ShowFavoritesFragment
 
 class MainActivity : AppCompatActivity(), MainFragment.FavoritesCallback, MovieRecyclerViewAdapter.Callbacks {
     override fun onCreate(savedInstanceState: Bundle?) {

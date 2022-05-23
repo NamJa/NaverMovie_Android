@@ -1,4 +1,4 @@
-package com.example.navermovieandroid
+package com.example.navermovieandroid.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.navermovieandroid.R
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.example.navermovieandroid.databinding.FragmentMovieDetailBinding

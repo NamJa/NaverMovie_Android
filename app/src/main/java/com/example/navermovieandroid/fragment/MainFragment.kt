@@ -1,4 +1,4 @@
-package com.example.navermovieandroid
+package com.example.navermovieandroid.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.navermovieandroid.R
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.example.navermovieandroid.databinding.FragmentMainBinding
