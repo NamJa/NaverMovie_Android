@@ -50,7 +50,7 @@ class MovieDetailFragment : Fragment() {
             (activity as AppCompatActivity).onBackPressed()
         }
         binding.toolbar.title = ""
-        binding.toolbar.findViewById<TextView>(R.id.toolbarTextTitle).text = resItem.title
+        binding.toolbarTextTitle.text = resItem.title
 
         val adapter = MovieRecyclerViewAdapter(requireContext())
         adapter.setList(listOf(resItem))
