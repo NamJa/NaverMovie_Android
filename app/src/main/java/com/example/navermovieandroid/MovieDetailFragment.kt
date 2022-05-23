@@ -6,23 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
-import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
+import com.example.navermovieandroid.databinding.FragmentMovieDetailBinding
 
 private const val ARG_PARAM1 = "param1"
 
 class MovieDetailFragment : Fragment() {
+
+    private lateinit var binding: FragmentMovieDetailBinding
+
     private lateinit var resItem: ResultResponse
-    private lateinit var webView: WebView
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,40 +34,38 @@ class MovieDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie_detail, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
+        initView()
 
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             (activity as AppCompatActivity).onBackPressed()
         }
-        toolbar.title = ""
-        toolbar.findViewById<TextView>(R.id.toolbarTextTitle).text = resItem.title
+        binding.toolbar.title = ""
+        binding.toolbar.findViewById<TextView>(R.id.toolbarTextTitle).text = resItem.title
 
         val adapter = MovieRecyclerViewAdapter(requireContext())
         adapter.setList(listOf(resItem))
         adapter.isClickable = false
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
 
-        webView.apply {
+        binding.webView.apply {
             true.also { settings.javaScriptEnabled = it }
             webViewClient = WebViewClient()
             webChromeClient = WebChromeClient()
         }
-        webView.loadUrl(resItem.link)
+        binding.webView.loadUrl(resItem.link)
     }
 
-    fun initView(view: View) {
-        webView = view.findViewById(R.id.webView)
-        recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        toolbar = view.findViewById(R.id.toolbar)
+    fun initView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     companion object {

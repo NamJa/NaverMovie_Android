@@ -9,15 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
+import com.example.navermovieandroid.databinding.FragmentMainBinding
 import com.example.navermovieandroid.viewmodels.MainFragmentViewModel
-import com.google.android.material.textfield.TextInputLayout
 
 private const val TAG = "MainFragment"
 
@@ -33,10 +33,9 @@ class MainFragment : Fragment() {
     private var start = 1
     private var display = 15
 
-    private lateinit var inputLayout: TextInputLayout
+    private lateinit var binding: FragmentMainBinding
+
     private lateinit var editText: EditText
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var showFavoritesBtn: LinearLayout
 
     private lateinit var movieListAdapter: MovieRecyclerViewAdapter
     private lateinit var viewModel: MainFragmentViewModel
@@ -56,13 +55,14 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         movieListAdapter = MovieRecyclerViewAdapter(requireContext())
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
+        initView()
 
         /** editText에서 enter키를 입력받았을 경우 */
         editText.setOnKeyListener(object : View.OnKeyListener {
@@ -71,7 +71,7 @@ class MainFragment : Fragment() {
                     queryText = editText.text.toString()
                     start = 1
                     display = 15
-                    recyclerView.adapter = movieListAdapter
+                    binding.recyclerView.adapter = movieListAdapter
                     viewModel.totalMovieData.clear()
                     movieListAdapter.clear()
                     viewModel.fetchMovieData(queryText, start, display)
@@ -83,7 +83,7 @@ class MainFragment : Fragment() {
         })
 
         /** '즐겨찾기' 버튼 클릭 */
-        showFavoritesBtn.setOnClickListener {
+        binding.showFavoritesBtn.setOnClickListener {
             favCallback?.onShowFavoritesBtnClicked()
         }
 
@@ -112,7 +112,7 @@ class MainFragment : Fragment() {
         )
 
         /** RecyclerView의 무한 스크롤 동작 */
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -137,13 +137,10 @@ class MainFragment : Fragment() {
         viewModel.isOnPaused = true
     }
 
-    private fun initView(view: View) {
-        inputLayout = view.findViewById(R.id.tiLayout)
-        editText = inputLayout.editText!!
-        recyclerView = view.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = movieListAdapter
-        showFavoritesBtn = view.findViewById(R.id.showFavoritesBtn)
+    private fun initView() {
+        editText = binding.tiLayout.editText!!
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = movieListAdapter
     }
 
 

@@ -6,14 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.navermovieandroid.R
 import com.example.navermovieandroid.api.movie_data.ResultResponse
+import com.example.navermovieandroid.databinding.ItemRecyclerviewMovieBinding
 import com.example.navermovieandroid.util.MovieDatabaseRepository
 import org.json.JSONArray
 import org.json.JSONException
@@ -30,33 +29,18 @@ class MovieRecyclerViewAdapter(
     private var movieList: MutableList<ResultResponse> = mutableListOf()
     var isClickable = true
 
-    inner class MovieDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MovieDataViewHolder(private val binding: ItemRecyclerviewMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         val movieDatabaseRepository = MovieDatabaseRepository.get()
-        val moviePoster: ImageView
-        val movieTitle: TextView
-        val movieDirector: TextView
-        val movieActor: TextView
-        val movieRate: TextView
-        val favoriteBtn: ImageView
-
-        init {
-            moviePoster = itemView.findViewById(R.id.moviePoster)
-            movieTitle = itemView.findViewById(R.id.movieTitle)
-            movieDirector = itemView.findViewById(R.id.movieDirector)
-            movieActor = itemView.findViewById(R.id.movieActor)
-            movieRate = itemView.findViewById(R.id.movieRate)
-            favoriteBtn = itemView.findViewById(R.id.favoriteBtn)
-        }
 
         fun bind(resItem: ResultResponse) {
             Glide.with(itemView)
                 .load(resItem.image)
-                .into(moviePoster)
+                .into(binding.moviePoster)
 
-            movieTitle.text = resItem.title
-            movieDirector.text = "감독: ${resItem.director}"
-            movieActor.text = "출연: ${resItem.actor}"
-            movieRate.text = "평점: ${resItem.userRating}"
+            binding.movieTitle.text = resItem.title
+            binding.movieDirector.text = "감독: ${resItem.director}"
+            binding.movieActor.text = "출연: ${resItem.actor}"
+            binding.movieRate.text = "평점: ${resItem.userRating}"
 
 
             itemView.setOnClickListener {
@@ -69,7 +53,7 @@ class MovieRecyclerViewAdapter(
             /** 즐겨찾기 버튼 이미지 처리 */
             setFavoriteBtnImage(itemView, resItem.isWished)
             /** 즐겨찾기 버튼 클릭 이벤트 처리 */
-            favoriteBtn.setOnClickListener {
+            binding.favoriteBtn.setOnClickListener {
                 if (resItem.isWished) { // 이미 북마크한 경우
                     setWishedListPref(context, resItem.movNum, "DELETE")
                     resItem.isWished = false
@@ -92,7 +76,7 @@ class MovieRecyclerViewAdapter(
             }
             Glide.with(itemView)
                 .load(wishedBtnImage)
-                .into(favoriteBtn)
+                .into(binding.favoriteBtn)
         }
         /** SharedPreference의 데이터를 가져옵니다. */
         fun getWishedListPref(context: Context): MutableList<String> {
@@ -150,8 +134,8 @@ class MovieRecyclerViewAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieDataViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_recyclerview_movie, parent, false)
-        return MovieDataViewHolder(view)
+        val binding = DataBindingUtil.inflate<ItemRecyclerviewMovieBinding>(LayoutInflater.from(context), R.layout.item_recyclerview_movie, parent, false)
+        return MovieDataViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MovieDataViewHolder, position: Int) {

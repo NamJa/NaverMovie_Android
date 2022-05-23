@@ -5,20 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
+import com.example.navermovieandroid.databinding.FragmentShowFavoritesBinding
 import com.example.navermovieandroid.viewmodels.ShowFavoritesViewModel
 
 class ShowFavoritesFragment : Fragment() {
 
-    private lateinit var closeBtn: ImageView
-    private lateinit var favoritesRecyclerView: RecyclerView
-
+    private lateinit var binding: FragmentShowFavoritesBinding
     private lateinit var viewModel: ShowFavoritesViewModel
     private lateinit var movieListAdapter: MovieRecyclerViewAdapter
 
@@ -32,14 +30,15 @@ class ShowFavoritesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         movieListAdapter = MovieRecyclerViewAdapter(requireContext())
-        return inflater.inflate(R.layout.fragment_show_favorites, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_show_favorites, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
+        initView()
 
-        closeBtn.setOnClickListener {
+        binding.closeBtn.setOnClickListener {
             (activity as AppCompatActivity).onBackPressed()
         }
 
@@ -47,16 +46,14 @@ class ShowFavoritesFragment : Fragment() {
             viewLifecycleOwner,
             Observer {
                 movieListAdapter.setList(it)
-                favoritesRecyclerView.adapter = movieListAdapter
+                binding.favoritesRecyclerView.adapter = movieListAdapter
             }
         )
 
     }
 
-    fun initView(view: View) {
-        closeBtn = view.findViewById(R.id.closeBtn)
-        favoritesRecyclerView = view.findViewById(R.id.favoritesRecyclerView)
-        favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    fun initView() {
+        binding.favoritesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     companion object {
