@@ -71,6 +71,7 @@ class MainFragment : Fragment() {
                     queryText = editText.text.toString()
                     start = 1
                     display = 15
+                    viewModel.isOnPaused = false
                     binding.recyclerView.adapter = movieListAdapter
                     viewModel.totalMovieData.clear()
                     movieListAdapter.clear()
@@ -103,7 +104,6 @@ class MainFragment : Fragment() {
                 }
 
                 if (!viewModel.isOnPaused) {
-                    Log.d("scroll_b", "called")
                     viewModel.totalMovieData.addAll(it.items)
                     movieListAdapter.notifyItemRangeInserted(recyclerItemTotalCount + 1, it.items.size)
                 }
@@ -118,11 +118,9 @@ class MainFragment : Fragment() {
 
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 recyclerItemTotalCount = viewModel.totalMovieData.size - 1
-                Log.d("scrollpos", "$movieResTotal        $lastVisibleItemPosition  $recyclerItemTotalCount")
 
                 if (!recyclerView.canScrollVertically(1) && (lastVisibleItemPosition == recyclerItemTotalCount) && (movieResTotal >= recyclerItemTotalCount+1)) {
                     if(movieResTotal-1 != lastVisibleItemPosition) {
-                        Log.d("scrollpos_data", "called")
                         viewModel.isOnPaused = false
                         start += display
                         viewModel.fetchMovieData(queryText, start, display)
