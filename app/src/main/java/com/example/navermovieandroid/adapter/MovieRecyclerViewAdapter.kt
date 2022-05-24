@@ -10,6 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.navermovieandroid.R
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.example.navermovieandroid.databinding.ItemRecyclerviewMovieBinding
@@ -43,6 +44,7 @@ class MovieRecyclerViewAdapter(
             /** 영화 포스터 이미지 할당 */
             Glide.with(itemView)
                 .load(resItem.image)
+                .placeholder(R.drawable.no_image_placeholder)
                 .into(binding.moviePoster)
 
             binding.movieTitle.text = resItem.title
