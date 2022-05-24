@@ -52,7 +52,7 @@ class MovieDataFetcherRepository {
                 if (response.isSuccessful) {
                     val movieRes: MovieResponse? = response.body()
                     movieRes?.let {
-                        _movieData.value = it
+                        _movieData.postValue(it)
                     }
                 }
             }

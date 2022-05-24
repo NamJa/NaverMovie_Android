@@ -42,6 +42,8 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainFragmentViewModel
     private var favCallback: FavoritesCallback? = null
 
+    private val tempData: MutableList<ResultResponse> = mutableListOf()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         favCallback = context as FavoritesCallback?
@@ -75,9 +77,9 @@ class MainFragment : Fragment() {
                     display = 15
                     viewModel.isOnPaused = false
                     /** recyclerView 초기화 작업 및 데이터 수신 */
-                    binding.recyclerView.adapter = movieListAdapter
-                    viewModel.totalMovieData.clear()
                     movieListAdapter.clear()
+                    viewModel.totalMovieData.clear()
+                    binding.recyclerView.adapter = movieListAdapter
                     viewModel.fetchMovieData(queryText, start, display)
 
                     return true
@@ -103,12 +105,15 @@ class MainFragment : Fragment() {
                     }
                 }
                 movieResTotal = it.total
+                /** display값 보다 남은 결과 갯수가 적은 경우 */
                 if(it.display < display) {
                     display = it.display
                 }
 
                 if (!viewModel.isOnPaused) {
-                    viewModel.totalMovieData.addAll(it.items)
+                    /** 중복 데이터 방지 */
+                    if(tempData != it.items)
+                        viewModel.totalMovieData.addAll(it.items)
                     movieListAdapter.notifyItemRangeInserted(recyclerItemTotalCount + 1, it.items.size)
                 }
                 movieListAdapter.setList(viewModel.totalMovieData)
@@ -123,6 +128,13 @@ class MainFragment : Fragment() {
                 val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
                 recyclerItemTotalCount = viewModel.totalMovieData.size - 1
 
+                /**
+                 * - 스크롤 할 수 없는 경우
+                 * - 끝까지 스크롤해서 보이는 아이템 위치가 recyclerview의 아이템 개수와 일치한 경우
+                 * - 네이버 api는 start값이 total값보다 커도 display 값만큼 계속 응답하여 반환하기 때문에,
+                 *   "movieResTotal(total)값이 현재 recyclerview의 아이템 갯수보다 클 때" 라는 조건을 추가하였다.
+                 *  => 위 세 조건을 만족해야만 추가로 데이터 요청이 실행된다.
+                 * */
                 if (!recyclerView.canScrollVertically(1) && (lastVisibleItemPosition == recyclerItemTotalCount) && (movieResTotal >= recyclerItemTotalCount+1)) {
                     if(movieResTotal-1 != lastVisibleItemPosition) {
                         viewModel.isOnPaused = false
