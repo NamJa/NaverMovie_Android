@@ -20,6 +20,7 @@ class MovieDataFetcherRepository {
     val _movieData: MutableLiveData<MovieResponse> = MutableLiveData()
 
     init {
+        /** Naver API에서 제공하는 header 정보를 대입하기 위해 OkHttp를 사용했습니다. */
         val client = OkHttpClient.Builder().addInterceptor(object : Interceptor{
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original = chain.request()
@@ -31,7 +32,7 @@ class MovieDataFetcherRepository {
                 return chain.proceed(request)
             }
         }).build()
-
+        /** retrofit의 초기화 */
         val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl("https://openapi.naver.com/v1/search/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -41,6 +42,7 @@ class MovieDataFetcherRepository {
         naverMovieAPI = retrofit.create(NaverMovieAPI::class.java)
     }
 
+    /** 조건에 맞는 영화 데이터를 가져와서 LiveData에 반환합니다. */
     fun fetchMovieData(query: String, start: Int, display: Int) {
         naverMovieAPI.fetchMovieData(query, start, display).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(

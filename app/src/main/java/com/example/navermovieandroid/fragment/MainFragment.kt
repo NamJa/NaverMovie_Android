@@ -69,10 +69,12 @@ class MainFragment : Fragment() {
         editText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    /** editText의 값을 1번 결과값 부터, 15개씩 출력한다는 의미입니다. */
                     queryText = editText.text.toString()
                     start = 1
                     display = 15
                     viewModel.isOnPaused = false
+                    /** recyclerView 초기화 작업 및 데이터 수신 */
                     binding.recyclerView.adapter = movieListAdapter
                     viewModel.totalMovieData.clear()
                     movieListAdapter.clear()
@@ -90,10 +92,11 @@ class MainFragment : Fragment() {
         }
 
 
-        /** 영화 검색 데이터를 관찰하여 RecyclerView에 데이터를 추가한다. */
+        /** 영화 검색 데이터를 관찰하여 RecyclerView에 데이터를 추가합니다. */
         viewModel.movieData.observe(
             viewLifecycleOwner,
             Observer {
+                /** 다듬을 문자열이 있는 관계로, StringProcess()를 통해 데이터를 재처리합니다. */
                 if (it.items.size > 0) {
                     for (i in 0 until it.items.size) {
                         it.items[i] = stringProcess(it.items[i])
@@ -143,7 +146,9 @@ class MainFragment : Fragment() {
     }
 
 
+
     fun stringProcess(resItem: ResultResponse): ResultResponse {
+        /** movNum 속성 변수의 경우, Room DB의 식별자를 위해 임의로 지정하였습니다.  */
         resItem.movNum =
             resItem.link.replace("https://movie.naver.com/movie/bi/mi/basic.nhn?code=", "")
         resItem.title = resItem.title.replace("<b>", "")

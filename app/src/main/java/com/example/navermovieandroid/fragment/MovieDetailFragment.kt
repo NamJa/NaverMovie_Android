@@ -26,6 +26,7 @@ class MovieDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /** 인자로 전달한 ResultResponse 객체를 수신합니다. */
         arguments?.let {
             resItem = it.getParcelable(ARG_PARAM1) ?: ResultResponse("","","","","","","",false)
         }
@@ -43,6 +44,7 @@ class MovieDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
 
+        /** 임의로 생성한 Toolbar의 초기 세팅 코드입니다. */
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -52,11 +54,15 @@ class MovieDetailFragment : Fragment() {
         binding.toolbar.title = ""
         binding.toolbarTextTitle.text = resItem.title
 
+
         val adapter = MovieRecyclerViewAdapter(requireContext())
         adapter.setList(listOf(resItem))
+        /** recyclerView 아이템의 클릭 동작을 막아, 실행된 fragment가 재실행되는 것을 막습니다. */
         adapter.isClickable = false
         binding.recyclerView.adapter = adapter
 
+
+        /** webView 동작 */
         binding.webView.apply {
             true.also { settings.javaScriptEnabled = it }
             webViewClient = WebViewClient()

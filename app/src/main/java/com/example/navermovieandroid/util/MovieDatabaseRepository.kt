@@ -17,7 +17,7 @@ class MovieDatabaseRepository private constructor(context: Context){
     private val executor = Executors.newSingleThreadExecutor()
 
     fun getMovieFavorites(): LiveData<List<ResultResponse>> = movieDao.getMovieFavorites()
-
+    /** 백그라운드 thread를 통해 데이터를 추가 및 제거합니다. */
     fun addMovFav(resItem: ResultResponse) {
         executor.execute { movieDao.addMovFav(resItem) }
     }
@@ -26,6 +26,7 @@ class MovieDatabaseRepository private constructor(context: Context){
     }
 
     companion object{
+        /** Singleton 패턴을 통해 DB 객체를 생성합니다. */
         private var INSTANCE: MovieDatabaseRepository? = null
 
         fun initialize(context: Context) {

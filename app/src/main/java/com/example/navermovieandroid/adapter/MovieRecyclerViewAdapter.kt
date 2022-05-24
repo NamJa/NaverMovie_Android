@@ -33,6 +33,14 @@ class MovieRecyclerViewAdapter(
         val movieDatabaseRepository = MovieDatabaseRepository.get()
 
         fun bind(resItem: ResultResponse) {
+
+            /** recycler Item 클릭 이벤트 */
+            itemView.setOnClickListener {
+                if(isClickable)
+                    callbacks.onMovieItemSelected(resItem)
+            }
+
+            /** 영화 포스터 이미지 할당 */
             Glide.with(itemView)
                 .load(resItem.image)
                 .into(binding.moviePoster)
@@ -43,11 +51,6 @@ class MovieRecyclerViewAdapter(
             binding.movieRate.text = context.getString(R.string.userRated, resItem.userRating)
 
 
-            itemView.setOnClickListener {
-                if(isClickable)
-                    callbacks.onMovieItemSelected(resItem)
-            }
-
             /** sharedPreferences에서 가져온 데이터에 찜 처리가 되어있다면 목록 아이템 속성에 true 대입 */
             resItem.isWished = getWishedListPref(context).contains(resItem.movNum)
             /** 즐겨찾기 버튼 이미지 처리 */
@@ -55,9 +58,11 @@ class MovieRecyclerViewAdapter(
             /** 즐겨찾기 버튼 클릭 이벤트 처리 */
             binding.favoriteBtn.setOnClickListener {
                 if (resItem.isWished) { // 이미 북마크한 경우
+                    // SharedPreference 데이터 작업
                     setWishedListPref(context, resItem.movNum, "DELETE")
                     resItem.isWished = false
                     setFavoriteBtnImage(itemView, resItem.isWished)
+                    // Room database 작업
                     movieDatabaseRepository.delMovFav(resItem)
                 } else {                  // 북마크 안한 경우
                     setWishedListPref(context, resItem.movNum, "ADD")
@@ -84,6 +89,8 @@ class MovieRecyclerViewAdapter(
                 context.getString(R.string.preference_key),
                 Context.MODE_PRIVATE
             )
+            // 위에서 가져온 sharedPreference데이터를 JSON으로 변환하여,
+            // 수정 가능한 MutableList로 반환합니다.
             val json = prefs.getString(context.getString(R.string.preference_key), "")
             val wishedList: MutableList<String> = mutableListOf()
             if (json != "") {
@@ -108,9 +115,9 @@ class MovieRecyclerViewAdapter(
             )
             with(sharedPref.edit()) {
                 val wishedList = getWishedListPref(context)
-                if (state == "ADD") {
+                if (state == "ADD") { // state 인자에 따라 추가 및 제거 동작이 결정됩니다.
                     wishedList.add(movNum)
-                } else {
+                } else { // state 인자에 따라 추가 및 제거 동작이 결정됩니다.
                     wishedList.remove(movNum)
                 }
                 val jsonArray = JSONArray()
@@ -126,9 +133,7 @@ class MovieRecyclerViewAdapter(
     fun setList(itemList: List<ResultResponse>) {
         movieList = itemList.toMutableList()
     }
-    fun addList(itemList: List<ResultResponse>) {
-        movieList.addAll(itemList)
-    }
+
     fun clear() {
         movieList.clear()
     }

@@ -40,10 +40,12 @@ class ShowFavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
 
+        /** 'X'버튼의 동작 */
         binding.closeBtn.setOnClickListener {
             (activity as AppCompatActivity).onBackPressed()
         }
 
+        /** 즐겨찾기 목록을 관찰하여 RecyclerView에 할당합니다. */
         viewModel.favoritesDB.observe(
             viewLifecycleOwner,
             Observer {
