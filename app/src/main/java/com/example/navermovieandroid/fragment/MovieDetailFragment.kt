@@ -1,5 +1,6 @@
 package com.example.navermovieandroid.fragment
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebSettingsCompat.FORCE_DARK_OFF
+import androidx.webkit.WebSettingsCompat.FORCE_DARK_ON
+import androidx.webkit.WebViewFeature
 import com.example.navermovieandroid.R
 import com.example.navermovieandroid.adapter.MovieRecyclerViewAdapter
 import com.example.navermovieandroid.api.movie_data.ResultResponse
@@ -67,6 +72,19 @@ class MovieDetailFragment : Fragment() {
             true.also { settings.javaScriptEnabled = it }
             webViewClient = WebViewClient()
             webChromeClient = WebChromeClient()
+        }
+        /** 현재 기기의 설정이 다크 모드인지, 라이트 모드인지 판별하여 webView의 테마를 설정합니다. */
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    WebSettingsCompat.setForceDark(binding.webView.settings, FORCE_DARK_ON)
+                }
+                Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                    WebSettingsCompat.setForceDark(binding.webView.settings, FORCE_DARK_OFF)
+                }
+                else -> {
+                }
+            }
         }
         binding.webView.loadUrl(resItem.link)
     }

@@ -42,7 +42,7 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainFragmentViewModel
     private var favCallback: FavoritesCallback? = null
 
-    private val tempData: MutableList<ResultResponse> = mutableListOf()
+    private var tempData: MutableList<ResultResponse> = mutableListOf()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,6 +79,7 @@ class MainFragment : Fragment() {
                     /** recyclerView 초기화 작업 및 데이터 수신 */
                     movieListAdapter.clear()
                     viewModel.totalMovieData.clear()
+                    tempData = mutableListOf()
                     binding.recyclerView.adapter = movieListAdapter
                     viewModel.fetchMovieData(queryText, start, display)
 
@@ -112,9 +113,11 @@ class MainFragment : Fragment() {
 
                 if (!viewModel.isOnPaused) {
                     /** 중복 데이터 방지 */
-                    if(tempData != it.items)
+                    if(tempData != it.items) {
+                        tempData = it.items
                         viewModel.totalMovieData.addAll(it.items)
-                    movieListAdapter.notifyItemRangeInserted(recyclerItemTotalCount + 1, it.items.size)
+                        movieListAdapter.notifyItemRangeInserted(recyclerItemTotalCount + 1, it.items.size)
+                    }
                 }
                 movieListAdapter.setList(viewModel.totalMovieData)
             }

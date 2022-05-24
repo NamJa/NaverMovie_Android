@@ -10,7 +10,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.navermovieandroid.R
 import com.example.navermovieandroid.api.movie_data.ResultResponse
 import com.example.navermovieandroid.databinding.ItemRecyclerviewMovieBinding
